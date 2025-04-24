@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Suraj!</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dark">
+    <canvas id="stars-bg"></canvas>
+  <div class="card">
+    <h1>🎂 Happy Birthday Suraj! 🎉</h1>
+    <img src="SurajImage.png" alt="Suraj" class="profile-pic" />
+    <p class="message">
+        <strong>Happy Birthday, Suraj! 💖</strong><br>
+        On this extraordinary day, the universe paused to celebrate you — 
+        The kind of soul who lights up every room with warmth, wit, and wonder. 
+        May your heart dance to the rhythm of joy, your dreams bloom brighter than ever before, 
+        and may every moment ahead be wrapped in magic, just like the sparkle you add to the lives around you. ✨🌹
+        You're not just growing older—you're becoming more legendary, more radiant, more YOU with every trip around the sun. ☀️<br>
+        Here's to laughter that never ends, hugs that feel like home, and a life full of serendipity and stardust. 🌠<br><br>
+        <strong>Have the most beautiful birthday ever, Suraj. You deserve it all and more. 🎂❤️</strong>
+      </p>
+    <button onclick="toggleTheme()">🌓 Toggle Theme</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  window.onload = () => {
+    const duration = 5 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+  };
+</script>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+
+<script>
+    const canvas = document.getElementById("stars-bg");
+    const ctx = canvas.getContext("2d");
+  
+    let stars = [];
+    const numStars = 120;
+  
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+  
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5 + 0.5,
+        speed: Math.random() * 0.5 + 0.2,
+        alpha: Math.random(),
+      });
+    }
+  
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      stars.forEach(star => {
+        ctx.globalAlpha = star.alpha;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fill();
+  
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawStars);
+    }
+  
+    drawStars();
+  </script>
+
+<script>
+    let shootingStars = [];
+  
+    function createShootingStar() {
+      shootingStars.push({
+        x: Math.random() * canvas.width,
+        y: 0,
+        length: Math.random() * 80 + 40,
+        speed: Math.random() * 10 + 6,
+        opacity: Math.random() * 0.5 + 0.5
+      });
+    }
+  
+    setInterval(createShootingStar, 1500); // One every 1.5s
+  
+    function drawShootingStars() {
+      shootingStars.forEach((star, index) => {
+        ctx.globalAlpha = star.opacity;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(star.x, star.y);
+        ctx.lineTo(star.x - star.length, star.y + star.length);
+        ctx.stroke();
+  
+        star.x += star.speed;
+        star.y += star.speed;
+  
+        if (star.x > canvas.width || star.y > canvas.height) {
+          shootingStars.splice(index, 1); // Remove once off-screen
+        }
+      });
+    }
+  
+    function drawAll() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawStars();
+      drawShootingStars();
+      requestAnimationFrame(drawAll);
+    }
+  
+    drawAll();
+  </script>
+
+  <script>
+    const card = document.querySelector('.card');
+  
+    card.addEventListener('mousemove', (e) => {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = `${e.clientX}px`;
+      sparkle.style.top = `${e.clientY}px`;
+      document.body.appendChild(sparkle);
+  
+      setTimeout(() => {
+        sparkle.remove();
+      }, 600);
+    });
+  </script>
+  
+  
+</body>
+</html>
